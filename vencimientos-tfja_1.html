@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vencimientos TFJA 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #f5f2eb;
+      --paper: #fdfaf4;
+      --ink: #1a1712;
+      --ink2: #4a4640;
+      --muted: #8a847a;
+      --rule: #d8d0c4;
+      --accent: #8b1a1a;
+      --accent2: #1a4a8b;
+      --highlight: #fef3c7;
+      --green: #14532d;
+      --green-bg: #f0fdf4;
+      --red: #7f1d1d;
+      --red-bg: #fef2f2;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'IBM Plex Sans', sans-serif;
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+    }
+
+    /* Texture de papel */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23f5f2eb'/%3E%3Ccircle cx='1' cy='1' r='0.5' fill='%23e8e0d4' opacity='0.5'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    header {
+      border-top: 4px solid var(--accent);
+      border-bottom: 1px solid var(--rule);
+      padding: 1.5rem 0 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .escudo {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .header-text h1 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.3px;
+    }
+
+    .header-text p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-top: 3px;
+    }
+
+    .header-badge {
+      background: var(--accent);
+      color: white;
+      font-size: 0.72rem;
+      font-family: 'IBM Plex Mono', monospace;
+      padding: 4px 10px;
+      border-radius: 2px;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      margin-top: 4px;
+    }
+
+    /* INPUT SECTION */
+    .input-section {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 1.8rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      animation: fadeIn 0.4s ease both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .input-label {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--ink);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .input-label span {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .date-row {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .date-group {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .date-group label {
+      display: block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 5px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    input[type="date"] {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      background: white;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="date"]:focus {
+      border-color: var(--accent);
+    }
+
+    .calc-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.8rem;
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .calc-btn:hover { background: #6b1414; }
+    .calc-btn:active { transform: scale(0.98); }
+
+    /* EXPEDIENTE INFO */
+
+
+    /* RESULTADO */
+    .result-section {
+      animation: fadeIn 0.5s ease both;
+    }
+
+    /* Encabezado del expediente */
+    .exp-header {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 4px 4px 0 0;
+      border-bottom: none;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .exp-info {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .exp-info strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .exp-titulo {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* TABLA */
+    .tabla-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--rule);
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--paper);
+      font-size: 0.88rem;
+    }
+
+    thead tr {
+      background: var(--ink);
+      color: white;
+    }
+
+    thead th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    thead th:first-child { border-radius: 0; }
+
+    tbody tr {
+      border-bottom: 1px solid var(--rule);
+      transition: background 0.15s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #faf7f0; }
+
+    td {
+      padding: 0.85rem 1rem;
+      vertical-align: middle;
+    }
+
+    .td-concepto {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+
+    .td-concepto small {
+      display: block;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 2px;
+    }
+
+    .td-fecha {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--accent2);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .td-dia {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 0.82rem;
+      color: var(--ink2);
+      white-space: nowrap;
+    }
+
+    .td-habil {
+      text-align: center;
+    }
+
+    .badge-habil {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 2px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-si {
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid #bbf7d0;
+    }
+
+    .badge-no {
+      background: var(--red-bg);
+      color: var(--red);
+      border: 1px solid #fecaca;
+    }
+
+    .td-vence {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .vence-highlight {
+      background: var(--highlight);
+      border-left: 3px solid #d97706;
+    }
+
+    .vence-main {
+      color: var(--accent);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    /* ROW ESPECIALES */
+    .row-publicacion td { background: #f0f4ff; }
+    .row-surte td { background: #f0fff4; }
+    .row-termino td {}
+
+    /* NOTAS */
+    .notas-section {
+      margin-top: 1rem;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--accent2);
+      border-radius: 0 4px 4px 0;
+      padding: 1rem 1.2rem;
+      font-size: 0.8rem;
+      color: var(--ink2);
+      line-height: 1.7;
+    }
+
+    .notas-section strong {
+      display: block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .notas-section ul {
+      padding-left: 1.2rem;
+    }
+
+    /* CALENDARIO MINI */
+    .dias-inhabiles-section {
+      margin-top: 1.5rem;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 1.2rem 1.5rem;
+    }
+
+    .dias-inhabiles-section h3 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.9rem;
+      color: var(--ink);
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 1.2rem 0;
+    }
+
+    /* TIPO DE NOTIFICACIÓN */
+    .tipo-row {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 0.3rem;
+      flex-wrap: wrap;
+    }
+
+    .tipo-option {
+      flex: 1;
+      min-width: 200px;
+      cursor: pointer;
+    }
+
+    .tipo-option input[type="radio"] {
+      display: none;
+    }
+
+    .tipo-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      background: white;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .tipo-option input[type="radio"]:checked + .tipo-card {
+      border-color: var(--accent);
+      background: #fff8f8;
+    }
+
+    .tipo-num {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+      line-height: 1.3;
+    }
+
+    .tipo-title {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .tipo-desc {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* TABLA DÍAS INHÁBILES */
+    .inh-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.83rem;
+    }
+
+    .inh-table thead tr {
+      background: var(--ink);
+      color: white;
+    }
+
+    .inh-table thead th {
+      padding: 0.6rem 1rem;
+      text-align: left;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .inh-table tbody tr {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .inh-table tbody tr:last-child { border-bottom: none; }
+    .inh-table tbody tr:hover { background: #faf7f0; }
+
+    .inh-mes {
+      padding: 0.65rem 1rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      vertical-align: top;
+      background: #fdf8f8;
+      border-right: 1px solid var(--rule);
+      white-space: nowrap;
+    }
+
+    .inh-dia {
+      padding: 0.65rem 1rem;
+      color: var(--ink2);
+      font-family: 'IBM Plex Sans', sans-serif;
+    }
+
+    /* Historial */
+    .historial-section {
+      margin-top: 1.5rem;
+    }
+
+    .historial-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .historial-header h3 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.88rem;
+      color: var(--ink2);
+    }
+
+    .clear-btn {
+      background: none;
+      border: 1px solid var(--rule);
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-family: 'IBM Plex Sans', sans-serif;
+      padding: 3px 10px;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    .historial-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .historial-item {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      padding: 0.6rem 1rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--ink2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+
+    .historial-item:hover { border-color: var(--accent); }
+
+    .print-btn {
+      background: none;
+      border: 1px solid var(--rule);
+      color: var(--ink2);
+      font-size: 0.75rem;
+      font-family: 'IBM Plex Sans', sans-serif;
+      padding: 4px 12px;
+      border-radius: 2px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: border-color 0.2s;
+    }
+
+    .print-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    @media print {
+      body { background: white; }
+      .input-section, .historial-section, .dias-inhabiles-section, .print-btn { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .header-text h1 { font-size: 1.2rem; }
+      .date-row { flex-direction: column; }
+    }
+
+    footer {
+      margin-top: 2.5rem;
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid var(--rule);
+      padding-top: 1rem;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="header-top">
+      <div style="display:flex;gap:0.8rem;align-items:center">
+        <div class="escudo">⚖️</div>
+        <div class="header-text">
+          <h1>Calculadora de Vencimientos</h1>
+          <p>Tribunal Federal de Justicia Administrativa · 2026</p>
+        </div>
+      </div>
+      <div class="header-badge">DÍAS INHÁBILES ACTUALIZADOS 2026</div>
+    </div>
+  </header>
+
+  <!-- INPUT -->
+  <div class="input-section">
+    <label class="input-label">Tipo de notificación</label>
+    <div class="tipo-row">
+      <label class="tipo-option">
+        <input type="radio" name="tipo-notif" value="personal" id="tipo-personal" onchange="onTipoChange()"/>
+        <div class="tipo-card">
+          <div class="tipo-num">1</div>
+          <div class="tipo-info">
+            <div class="tipo-title">Personal o Juicio en Línea</div>
+            <div class="tipo-desc">Surte efectos al día hábil siguiente a la notificación</div>
+          </div>
+        </div>
+      </label>
+      <label class="tipo-option">
+        <input type="radio" name="tipo-notif" value="boletin" id="tipo-boletin" onchange="onTipoChange()" checked/>
+        <div class="tipo-card">
+          <div class="tipo-num">2</div>
+          <div class="tipo-info">
+            <div class="tipo-title">Boletín Jurisdiccional</div>
+            <div class="tipo-desc">Surte efectos al 3er día hábil posterior a la publicación</div>
+          </div>
+        </div>
+      </label>
+    </div>
+
+    <hr class="divider"/>
+
+    <label class="input-label" id="label-fecha">
+      Fecha de publicación en el Boletín Jurisdiccional
+      <span>— Selecciona el día en que apareció la notificación</span>
+    </label>
+    <div class="date-row">
+      <div class="date-group">
+        <label>Fecha</label>
+        <input type="date" id="fecha-pub"/>
+      </div>
+      <button class="calc-btn" onclick="calcular()">Calcular término →</button>
+    </div>
+  </div>
+
+  <!-- RESULTADO -->
+  <div id="resultado"></div>
+
+  <!-- DÍAS INHÁBILES 2026 -->
+  <div class="dias-inhabiles-section">
+    <h3>📅 Días Inhábiles TFJA 2026</h3>
+    <div id="lista-inhabiles"></div>
+  </div>
+
+  <!-- HISTORIAL -->
+  <div class="historial-section" id="historial-section" style="display:none">
+    <div class="historial-header">
+      <h3>📋 Historial de cálculos</h3>
+      <button class="clear-btn" onclick="limpiarHistorial()">Limpiar</button>
+    </div>
+    <div class="historial-list" id="historial-list"></div>
+  </div>
+
+  <footer>
+    Días inhábiles conforme al Acuerdo del TFJA publicado para 2026 · Sábados y domingos excluidos automáticamente<br>
+    Este cálculo es de carácter orientativo — verifique siempre con el acuerdo oficial
+  </footer>
+
+</div>
+
+<script>
+// ── DÍAS INHÁBILES TFJA 2026 (oficiales) ─────────────────────
+// Fuente: https://www.tfja.gob.mx/servicios/dinh2026/
+const INHABILES_2026 = new Set([
+  // FEBRERO
+  '2026-02-02',
+  // MARZO
+  '2026-03-16',
+  // ABRIL
+  '2026-04-01','2026-04-02','2026-04-03',
+  // MAYO
+  '2026-05-01','2026-05-04','2026-05-05',
+  // JULIO — primer periodo vacacional (13 jul al 31 jul)
+  '2026-07-13','2026-07-14','2026-07-15','2026-07-16','2026-07-17',
+  '2026-07-20','2026-07-21','2026-07-22','2026-07-23','2026-07-24',
+  '2026-07-27','2026-07-28','2026-07-29','2026-07-30','2026-07-31',
+  // AGOSTO
+  '2026-08-28',
+  // SEPTIEMBRE
+  '2026-09-14','2026-09-15','2026-09-16',
+  // OCTUBRE
+  '2026-10-12',
+  // NOVIEMBRE
+  '2026-11-02','2026-11-16',
+  // DICIEMBRE — segundo periodo vacacional (14 dic en adelante)
+  '2026-12-14','2026-12-15','2026-12-16','2026-12-17','2026-12-18',
+  '2026-12-21','2026-12-22','2026-12-23','2026-12-24','2026-12-25',
+  '2026-12-28','2026-12-29','2026-12-30','2026-12-31',
+  // 1 enero 2027
+  '2027-01-01'
+]);
+
+const MESES = ['enero','febrero','marzo','abril','mayo','junio',
+               'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const DIAS_SEMANA = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+
+function toISO(d) {
+  return d.toISOString().split('T')[0];
+}
+
+function fechaStr(d) {
+  return `${d.getUTCDate()} de ${MESES[d.getUTCMonth()]} de ${d.getUTCFullYear()}`;
+}
+
+function diaSemana(d) {
+  return DIAS_SEMANA[d.getUTCDay()];
+}
+
+function esInhabil(d) {
+  const iso = toISO(d);
+  const dow = d.getUTCDay();
+  return dow === 0 || dow === 6 || INHABILES_2026.has(iso);
+}
+
+function esHabil(d) { return !esInhabil(d); }
+
+// Avanza N días hábiles desde fecha (sin contar la fecha de inicio)
+function avanzarHabiles(desde, n) {
+  let d = new Date(desde);
+  let cont = 0;
+  while (cont < n) {
+    d.setUTCDate(d.getUTCDate() + 1);
+    if (esHabil(d)) cont++;
+  }
+  return d;
+}
+
+// Siguiente día hábil (si ya es hábil devuelve el mismo, si no avanza)
+function siguienteHabil(d) {
+  let r = new Date(d);
+  while (esInhabil(r)) {
+    r.setUTCDate(r.getUTCDate() + 1);
+  }
+  return r;
+}
+
+// ── CALCULAR ─────────────────────────────────────────────────
+function getTipo() {
+  return document.querySelector('input[name="tipo-notif"]:checked').value;
+}
+
+function onTipoChange() {
+  const tipo = getTipo();
+  const lbl = document.getElementById('label-fecha');
+  if (tipo === 'personal') {
+    lbl.innerHTML = 'Fecha de la notificación personal / Juicio en Línea <span>— Selecciona el día en que se realizó la notificación</span>';
+  } else {
+    lbl.innerHTML = 'Fecha de publicación en el Boletín Jurisdiccional <span>— Selecciona el día en que apareció la notificación</span>';
+  }
+  document.getElementById('resultado').innerHTML = '';
+}
+
+function calcular() {
+  const val = document.getElementById('fecha-pub').value;
+  if (!val) { alert('Por favor selecciona una fecha.'); return; }
+
+  const tipo = getTipo();
+  const pub = new Date(val + 'T00:00:00Z');
+
+  let surte;
+  let subSurte;
+  let labelPub;
+
+  if (tipo === 'personal') {
+    // Surte efectos al día hábil SIGUIENTE a la notificación
+    surte = avanzarHabiles(pub, 1);
+    subSurte = 'Día hábil siguiente a la notificación';
+    labelPub = 'Fecha de notificación personal / Juicio en Línea';
+  } else {
+    // Surte efectos al TERCER día hábil siguiente a la publicación
+    surte = avanzarHabiles(pub, 3);
+    subSurte = '3er día hábil posterior a la publicación';
+    labelPub = 'Publicación en Boletín Jurisdiccional';
+  }
+
+  // Términos: se cuentan desde que surte efectos (surte no cuenta)
+  const t2  = avanzarHabiles(surte, 2);
+  const t3  = avanzarHabiles(surte, 3);
+  const t15 = avanzarHabiles(surte, 15);
+
+  const filas = [
+    {
+      concepto: labelPub,
+      sub: tipo === 'personal' ? 'Fecha de la notificación' : 'Fecha de notificación oficial',
+      fecha: pub,
+      esVencimiento: false,
+      claseRow: 'row-publicacion',
+      num: '—'
+    },
+    {
+      concepto: 'Surte efectos la notificación',
+      sub: subSurte,
+      fecha: surte,
+      esVencimiento: false,
+      claseRow: 'row-surte',
+      num: tipo === 'personal' ? '+1 h.' : '+3 h.'
+    },
+    {
+      concepto: 'Vence término de 2 días',
+      sub: '2 días hábiles contados desde que surte efectos',
+      fecha: t2,
+      esVencimiento: true,
+      claseRow: 'row-termino',
+      num: '+2 h.'
+    },
+    {
+      concepto: 'Vence término de 3 días',
+      sub: '3 días hábiles contados desde que surte efectos',
+      fecha: t3,
+      esVencimiento: true,
+      claseRow: 'row-termino',
+      num: '+3 h.'
+    },
+    {
+      concepto: 'Vence término de 15 días',
+      sub: '15 días hábiles contados desde que surte efectos',
+      fecha: t15,
+      esVencimiento: true,
+      claseRow: 'row-termino vence-highlight',
+      num: '+15 h.'
+    }
+  ];
+
+  // Construir tabla
+  let htmlExp = '';
+
+  const filasHTML = filas.map(f => {
+    const habil = esHabil(f.fecha);
+    const badgeHabil = `<span class="badge-habil ${habil ? 'badge-si' : 'badge-no'}">${habil ? 'HÁBIL' : 'INHÁBIL'}</span>`;
+    const tdFecha = f.esVencimiento
+      ? `<td class="td-vence vence-main">${fechaStr(f.fecha)}</td>`
+      : `<td class="td-fecha">${fechaStr(f.fecha)}</td>`;
+
+    return `<tr class="${f.claseRow}">
+      <td class="td-concepto">${f.concepto}<small>${f.sub}</small></td>
+      <td style="font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:var(--muted);text-align:center">${f.num}</td>
+      ${tdFecha}
+      <td class="td-dia">${diaSemana(f.fecha)}</td>
+      <td class="td-habil">${badgeHabil}</td>
+    </tr>`;
+  }).join('');
+
+  const html = `
+    <div class="result-section">
+      ${htmlExp}
+      <div class="tabla-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Concepto</th>
+              <th style="text-align:center">Días</th>
+              <th>Fecha</th>
+              <th>Día</th>
+              <th style="text-align:center">Hábil</th>
+            </tr>
+          </thead>
+          <tbody>${filasHTML}</tbody>
+        </table>
+      </div>
+      <button class="print-btn" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+    </div>`;
+
+  document.getElementById('resultado').innerHTML = html;
+
+  // Guardar en historial
+  guardarHistorial({
+    pub: val,
+    pubStr: fechaStr(pub),
+    surteStr: fechaStr(surte),
+    t2str: fechaStr(t2),
+    t3str: fechaStr(t3),
+    t15str: fechaStr(t15),
+  });
+
+  document.getElementById('resultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── HISTORIAL (localStorage) ──────────────────────────────────
+let historial = JSON.parse(localStorage.getItem('tfja_historial') || '[]');
+
+function guardarHistorial(item) {
+  historial.unshift({ ...item, ts: Date.now() });
+  if (historial.length > 10) historial = historial.slice(0, 10);
+  localStorage.setItem('tfja_historial', JSON.stringify(historial));
+  renderHistorial();
+}
+
+function limpiarHistorial() {
+  historial = [];
+  localStorage.removeItem('tfja_historial');
+  renderHistorial();
+}
+
+function renderHistorial() {
+  const sec = document.getElementById('historial-section');
+  const list = document.getElementById('historial-list');
+  if (historial.length === 0) { sec.style.display = 'none'; return; }
+  sec.style.display = 'block';
+  list.innerHTML = historial.map((h, i) => `
+    <div class="historial-item" onclick="recargar(${i})">
+      <span>${h.pubStr}</span>
+      <span style="color:var(--muted)">Surte: ${h.surteStr} · 15d: ${h.t15str}</span>
+    </div>`).join('');
+}
+
+function recargar(i) {
+  const h = historial[i];
+  document.getElementById('fecha-pub').value = h.pub;
+  calcular();
+}
+
+renderHistorial();
+
+// ── LISTA DÍAS INHÁBILES por mes (estilo TFJA) ────────────────
+const INHABILES_POR_MES = [
+  { mes: 'FEBRERO',    dias: ['Lunes 2 (en conmemoración del 5 de febrero)'] },
+  { mes: 'MARZO',      dias: ['Lunes 16 (en conmemoración del 21 de marzo, Día del Benemérito)'] },
+  { mes: 'ABRIL',      dias: ['Miércoles 1°', 'Jueves 2', 'Viernes 3'] },
+  { mes: 'MAYO',       dias: ['Viernes 1°', 'Lunes 4', 'Martes 5'] },
+  { mes: 'JULIO',      dias: ['Lunes 13', 'Martes 14', 'Miércoles 15 al Viernes 31 (1er periodo vacacional)'] },
+  { mes: 'AGOSTO',     dias: ['Viernes 28 (en conmemoración del 27 de agosto, Día del Empleado del TFJA)'] },
+  { mes: 'SEPTIEMBRE', dias: ['Lunes 14', 'Martes 15', 'Miércoles 16'] },
+  { mes: 'OCTUBRE',    dias: ['Lunes 12'] },
+  { mes: 'NOVIEMBRE',  dias: ['Lunes 2', 'Lunes 16 (en conmemoración del 20 de noviembre)'] },
+  { mes: 'DICIEMBRE',  dias: ['Lunes 14', 'Martes 15 al Jueves 31 (2° periodo vacacional)', 'Viernes 1° de enero de 2027'] },
+];
+
+function renderInhabiles() {
+  const el = document.getElementById('lista-inhabiles');
+  el.innerHTML = `<table class="inh-table">
+    <thead>
+      <tr><th>Mes</th><th>Día(s)</th></tr>
+    </thead>
+    <tbody>
+      ${INHABILES_POR_MES.map(m => {
+        const rowspan = m.dias.length;
+        return m.dias.map((d, i) => `
+          <tr>
+            ${i === 0 ? `<td class="inh-mes" rowspan="${rowspan}">${m.mes}</td>` : ''}
+            <td class="inh-dia">${d}</td>
+          </tr>`).join('');
+      }).join('')}
+    </tbody>
+  </table>`;
+}
+
+renderInhabiles();
+
+// Set default date to today
+const hoy = new Date();
+const yy = hoy.getFullYear();
+const mm = String(hoy.getMonth()+1).padStart(2,'0');
+const dd = String(hoy.getDate()).padStart(2,'0');
+document.getElementById('fecha-pub').value = `${yy}-${mm}-${dd}`;
+</script>
+</body>
+</html>
